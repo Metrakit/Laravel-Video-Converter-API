@@ -16,9 +16,8 @@ class VideoConverterController extends Controller {
 
 		if (!Input::has('url')) {
 			return Response::json(array(
-				'success' => false,
-				'data' 	=> "No URL"),
-				200
+				'message' 	=> "No URL"),
+				500
 			);
 		}
 
@@ -26,13 +25,16 @@ class VideoConverterController extends Controller {
 
 		if ($validator->fails()) {
 			return Response::json(array(
-				'success' => false,
-				'data' 	=> "Invalid URL"),
-				200
+				'message' 	=> "Invalid URL"),
+				500
 			);
 		}
 
-		$ffmpeg = FFMpeg\FFMpeg::create();
+		$ffmpeg = \FFMpeg\FFMpeg::create(array(
+			// Paths to set for the librairies
+		    'ffmpeg.binaries'  => '/usr/bin/ffmpeg',
+		    'ffprobe.binaries' => '/usr/bin/ffprobe',
+		));
 
 		// https://archive.org/download/Tg.flv_865/Tg.flv
 		$video = $ffmpeg->open(Input::get('url'));

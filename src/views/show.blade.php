@@ -2,6 +2,15 @@
 
 @section('js')
 
+
+  <style>
+
+    .video-list {
+      margin: 20px 0px 0px 20px;
+    }
+
+  </style>
+
   <script>
 
     function generateKey(nb)
@@ -20,12 +29,14 @@
     {
       var videosJSON = [];
 
-      for(var i = 0; i < videos.length; i++){
-
+      for (var i = 0; i < videos.length; i++) {
+        var key = generateKey(5);
         videosJSON.push({
           "url": videos[i],
-          "key": generateKey(5)
+          "key": key
         });
+
+        $('.video-list').append('<div id="video-' + key + '"><p><i class="fa"></i> Video from: ' + videos[i] + '</p></div>')
       }
 
       convertVideos(videosJSON);
@@ -36,15 +47,30 @@
     {
       if (videos.length >= 1) {
 
-        $.post("{{ URL::route('video.store') }}", videos[0], function(data) {
+        var content = $('#video-' + videos[0].key);
+        var icon = content.find('i');
 
-          console.log(videos[0]);
-          videos.splice(0,1);
+        icon.addClass('fa-spinner fa-spin');
 
-          // next video
-          convertVideos(videos);
+        $.post("{{ URL::route('video.store') }}", videos[0])
 
-        }.bind(videos));
+          .done(function(data) {
+
+            icon.addClass('fa-check text-success');
+          
+          }.bind(videos))
+
+          .fail(function(data) {
+            console.log(data);
+            icon.addClass('fa-times text-danger');
+            content.find('p').append(' <span class="text-danger">(' + data.responseJSON.message + ')</span>');
+          })
+
+          .always(function() {
+            icon.removeClass('fa-spinner fa-spin');
+            videos.splice(0,1);
+            convertVideos(videos);            
+          });
 
       } else {
         console.log('finish !');
@@ -93,7 +119,7 @@
 
   </div>
 
-  <form class="video-links form-horizontal">
+  <form class="video-links form-horizontal" action="javascript:void(0);">
 
     <div class="form-group">
       <label class="control-label col-md-2">Liens des vidéos</label>
