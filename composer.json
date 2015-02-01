@@ -1,0 +1,25 @@
+{
+    "name": "Video converter API",
+    "description": "An API for convert videos with ffmpeg",
+    "authors": [
+        {
+            "name": "Jordane Jouffroy",
+            "email": "contact@jordane.net"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "illuminate/support": "4.2.*",
+        "php-ffmpeg/php-ffmpeg": "~0.5"
+    },
+    "autoload": {
+        "classmap": [
+            "src/controllers",
+            "src/config"
+        ],
+        "psr-0": {
+            "Metrakit\\VideoConverter": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}
