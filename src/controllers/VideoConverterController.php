@@ -13,7 +13,6 @@ class VideoConverterController extends Controller {
 	 */
 	public function store()
 	{
-		return var_dump('hey');
 
 		if (!Input::has('url')) {
 			return Response::json(array(
