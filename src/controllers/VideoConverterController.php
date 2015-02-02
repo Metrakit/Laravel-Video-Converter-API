@@ -30,6 +30,8 @@ class VideoConverterController extends Controller {
 			);
 		}
 
+		//return var_dump(pathinfo(Input::get('url')));
+
 		$ffmpeg = \FFMpeg\FFMpeg::create(array(
 			// Paths to set for the librairies
 		    'ffmpeg.binaries'  => '/usr/bin/ffmpeg',
