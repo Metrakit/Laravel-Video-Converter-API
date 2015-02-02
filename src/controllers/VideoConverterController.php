@@ -30,7 +30,20 @@ class VideoConverterController extends Controller {
 			);
 		}
 
-		//return var_dump(pathinfo(Input::get('url')));
+		$fileInfo = pathinfo(Input::get('url'));
+
+		if (sizeof($fileInfo) == 0) {
+			return Response::json(array(
+				'message' 	=> "Error when parsing URL"),
+				500
+			);			
+		}
+
+		if (file_exists('cdn/ ' . $fileInfo['basename'])) {
+			$filename = str_random(5) . '-' . $fileInfo['filename'];
+		} else {
+			$filename = $fileInfo['filename'];
+		}
 
 		$ffmpeg = \FFMpeg\FFMpeg::create(array(
 			// Paths to set for the librairies
@@ -43,16 +56,16 @@ class VideoConverterController extends Controller {
 
 		$video
 		    ->frame(FFMpeg\Coordinate\TimeCode::fromSeconds(5))
-		    ->save('cdn/frame1.jpg');
+		    ->save('cdn/' . $filename . '_1.jpg');
 		$video
 		    ->frame(FFMpeg\Coordinate\TimeCode::fromSeconds(10))
-		    ->save('cdn/frame2.jpg');
+		    ->save('cdn/' . $filename . '_2.jpg');
 		$video
 		    ->frame(FFMpeg\Coordinate\TimeCode::fromSeconds(15))
-		    ->save('cdn/frame3.jpg');
+		    ->save('cdn/' . $filename . '_3.jpg');
 
 		$video
-		    ->save(new FFMpeg\Format\Video\X264(), 'cdn/export-x264.mp4');
+		    ->save(new FFMpeg\Format\Video\X264(), 'cdn/' . $filename . '.mp4');
 
 		return Response::json(array(
 			'success' => true,
