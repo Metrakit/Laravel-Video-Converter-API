@@ -13,8 +13,9 @@ class VideoConverterController extends Controller {
 	 */
 	public function store()
 	{
+		return var_dump('hey');
 
-		if (!Input::has('url')) {
+		/*if (!Input::has('url')) {
 			return Response::json(array(
 				'message' 	=> "No URL"),
 				500
@@ -56,7 +57,7 @@ class VideoConverterController extends Controller {
 			'success' => true,
 			'data' 	=> Input::get('url')),
 			200
-		);
+		);*/
 
 	}
 
