@@ -1,5 +1,8 @@
 {
-    "name": "Video converter API",
+    "version": "0.0.1",
+    "name": "metrakit/laravel-video-converter-api",
+    "keywords": ["laravel", "laravel4", "video", "api", "converter"],
+    "license": "MIT",
     "description": "An API for convert videos with ffmpeg",
     "authors": [
         {
