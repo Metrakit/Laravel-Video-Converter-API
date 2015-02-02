@@ -39,7 +39,7 @@ class VideoConverterController extends Controller {
 			);			
 		}
 
-		if (file_exists(public_path() . 'cdn/ ' . $fileInfo['filename'] . '.mp4')) {
+		if (file_exists(public_path() . '/cdn/' . $fileInfo['filename'] . '.mp4')) {
 			$filename = str_random(5) . '-' . $fileInfo['filename'];
 		} else {
 			$filename = $fileInfo['filename'];

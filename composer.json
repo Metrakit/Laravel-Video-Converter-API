@@ -1,5 +1,5 @@
 {
-    "version": "0.0.4",
+    "version": "0.0.5",
     "name": "metrakit/laravel-video-converter-api",
     "keywords": ["laravel", "laravel4", "video", "api", "converter"],
     "license": "MIT",
