@@ -42,16 +42,16 @@ class VideoConverterController extends Controller {
 
 		$video
 		    ->frame(FFMpeg\Coordinate\TimeCode::fromSeconds(5))
-		    ->save('frame1.jpg');
+		    ->save('cdn/frame1.jpg');
 		$video
 		    ->frame(FFMpeg\Coordinate\TimeCode::fromSeconds(10))
-		    ->save('frame2.jpg');
+		    ->save('cdn/frame2.jpg');
 		$video
 		    ->frame(FFMpeg\Coordinate\TimeCode::fromSeconds(15))
-		    ->save('frame3.jpg');
+		    ->save('cdn/frame3.jpg');
 
 		$video
-		    ->save(new FFMpeg\Format\Video\X264(), 'export-x264.mp4');
+		    ->save(new FFMpeg\Format\Video\X264(), 'cdn/export-x264.mp4');
 
 		return Response::json(array(
 			'success' => true,
