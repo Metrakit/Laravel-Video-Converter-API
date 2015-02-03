@@ -1,7 +1,9 @@
-<?php return array(
+<?php 
+
+return array(
 
 	'rules' => array(
-		"url" => "url"
+		"url" => "url|regex:/(?i:^.*\.(mp4|avi|wmv|flv|mpg|mov|mkv)$)/"
 	)
 
 );
