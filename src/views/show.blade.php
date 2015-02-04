@@ -63,18 +63,17 @@
 
             icon.addClass('fa-check text-success');
             content.find('p').append(' <span class="text-success">(Exécuté en ' + data.time + ' minutes)</span>');
-            content.append('
-              <div class="row">
-                <div class="col-md-4">
-                  <img src="/cdn/thumbnails/' + data.fileName + '_1.jpg" />
-                </div>
-              <div class="col-md-4">
-                <img src="/cdn/thumbnails/' + data.fileName + '_2.jpg" />
-              </div>
-              <div class="col-md-4">
-                <img src="/cdn/thumbnails/' + data.fileName + '_3.jpg" />
-              </div>
-            </div>');
+            content.append('<div class="row">'
+              + '<div class="col-md-4">'
+              + '<img src="/cdn/thumbnails/' + data.fileName + '_1.jpg" />'
+              + '</div>'
+              + '<div class="col-md-4">'
+              + '<img src="/cdn/thumbnails/' + data.fileName + '_2.jpg" />'
+              + '</div>'
+              + '<div class="col-md-4">'
+              + '<img src="/cdn/thumbnails/' + data.fileName + '_3.jpg" />'
+              + '</div>'
+            + '</div>');
           
           }.bind(videos))
 
