@@ -73,7 +73,6 @@ class VideoConverterController extends Controller {
 			->streams(Input::get('url'))
 			->videos() 
 			->first();*/
-
 		$duration = $videoStream->format(Input::get('url'))
     					->get('duration');  			
 
