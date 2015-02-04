@@ -55,10 +55,11 @@
         var url = "/cdn/videos/" + fileName + ".mp4";
         var player = new Clappr.Player({
           sources: [url],
-          width: 200
+          width: 200,
+          height: 200
         });
 
-      player.attachTo(document.getElementsByClassName('video-' + fileName)[0]);
+      player.attachTo(document.getElementsById('video-' + fileName));
     }
 
     function convertVideos(videos)
@@ -87,7 +88,7 @@
               + '<img src="/cdn/thumbnails/' + data.fileName + '_3.jpg" />'
               + '</div>'
               + '<div class="col-md-3">'
-              + '<div class="video-' + data.fileName + '"></div>'
+              + '<div id="video-' + data.fileName + '"></div>'
               + '</div>'              
             + '</div>');
 
