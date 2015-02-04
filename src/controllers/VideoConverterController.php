@@ -73,19 +73,35 @@ class VideoConverterController extends Controller {
 			->streams(Input::get('url'))
 			->videos() 
 			->first();*/
+
 		$duration = $videoStream->format(Input::get('url'))
-    					->get('duration');  			
+    					->get('duration');  	
 
-		$video
-		    ->frame(FFMpeg\Coordinate\TimeCode::fromSeconds(5))
-		    ->save(Config::get('videoConverter::VideoSettings.thumbnailPath') . $filename . '_1.' . Config::get('videoConverter::VideoSettings.thumbnailType'));
-		$video
-		    ->frame(FFMpeg\Coordinate\TimeCode::fromSeconds(10))
-		    ->save(Config::get('videoConverter::VideoSettings.thumbnailPath') . $filename . '_2.' . Config::get('videoConverter::VideoSettings.thumbnailType'));
-		$video
-		    ->frame(FFMpeg\Coordinate\TimeCode::fromSeconds(15))
-		    ->save(Config::get('videoConverter::VideoSettings.thumbnailPath') . $filename . '_3.' . Config::get('videoConverter::VideoSettings.thumbnailType'));
+    	$nbThumbs = Config::get('videoConverter::VideoSettings.nbThumbnails');
 
+    	$frameTime = 0;
+    	$timeByThumb = floor($duration) / $nbThumbs;
+
+    	for ($i=0; $i < $nbThumbs ; $i++) { 
+			if ($i == 0) {
+				// 5 seconds in more for the first frame
+				$frameTime = 5;
+			} else if ($i == $nbThumbs -1) {
+				// 10 seconds in less for the last frame
+				$time = ($time + $timeByThumb) - 10;
+			} else {
+				$time = $time + $timeByThumb;
+			}
+
+			$frameNumber = $i + 1;
+
+			// Generate frame
+			$video
+		    	->frame(FFMpeg\Coordinate\TimeCode::fromSeconds($frameTime))
+		    	->save(Config::get('videoConverter::VideoSettings.thumbnailPath') . $filename . '_' . $frameNumber . '.' . Config::get('videoConverter::VideoSettings.thumbnailType'));		
+		}		
+
+		// Generate video
 		$video
 		    ->save(new FFMpeg\Format\Video\X264(), Config::get('videoConverter::VideoSettings.videoPath') . $filename . '.' . Config::get('videoConverter::VideoSettings.convertTo'));
 

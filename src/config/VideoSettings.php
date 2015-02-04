@@ -10,6 +10,8 @@ return array(
 	'convertTo' => 'mp4',
 	'thumbnailType' => 'jpg',
 
+	'nbThumbnails' => 6,
+
 	'thumbnailPath' => public_path() . '/cdn/thumbnails/',
 	'videoPath' => public_path() . '/cdn/videos/',
 
