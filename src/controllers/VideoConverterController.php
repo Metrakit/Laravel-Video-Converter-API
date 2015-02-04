@@ -56,7 +56,7 @@ class VideoConverterController extends Controller {
 			$filename = $fileInfo['filename'];
 		}
 
-		$ffmpeg = \FFMpeg\FFMpeg::create(array(
+		$ffmpeg = FFMpeg\FFMpeg::create(array(
 			// Paths to set for the librairies
 		    'ffmpeg.binaries'  => Config::get('videoConverter::VideoSettings.ffmpegPath'),
 		    'ffprobe.binaries' => Config::get('videoConverter::VideoSettings.ffprobePath'),
@@ -68,9 +68,10 @@ class VideoConverterController extends Controller {
 		// https://archive.org/download/22avi/22Avi.avi
 		$video = $ffmpeg->open(Input::get('url'));
 
-		$videoStream = $ffprobe->streams(Input::get('url'))
-    						->videos() 
-    						->first();
+		$videoStream = FFMpeg\FFProbe::create();
+		$videoStream->streams(Input::get('url'))
+			->videos() 
+			->first();
 
 		$video
 		    ->frame(FFMpeg\Coordinate\TimeCode::fromSeconds(5))
