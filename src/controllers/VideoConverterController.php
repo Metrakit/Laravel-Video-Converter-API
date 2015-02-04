@@ -92,8 +92,8 @@ class VideoConverterController extends Controller {
 
 		return Response::json(array(
 			'success' => true,
-			'data' 	=> Input::get('url')),
-			'time'	=> $timeExec
+			'data' 	=> Input::get('url'),
+			'time'	=> $timeExec)
 			200
 		);
 
