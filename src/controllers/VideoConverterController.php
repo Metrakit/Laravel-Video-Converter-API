@@ -60,6 +60,7 @@ class VideoConverterController extends Controller {
 			// Paths to set for the librairies
 		    'ffmpeg.binaries'  => Config::get('videoConverter::VideoSettings.ffmpegPath'),
 		    'ffprobe.binaries' => Config::get('videoConverter::VideoSettings.ffprobePath'),
+		    'timeout'          => 0
 		));
 
 		// example: https://archive.org/download/Tg.flv_865/Tg.flv
