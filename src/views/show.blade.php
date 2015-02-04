@@ -57,7 +57,7 @@
           .done(function(data) {
 
             icon.addClass('fa-check text-success');
-            content.find('p').append(' <span class="text-success">(Exécuté en ' + data.time + ' secondes)</span>');
+            content.find('p').append(' <span class="text-success">(Exécuté en ' + data.time + ' minutes)</span>');
           
           }.bind(videos))
 

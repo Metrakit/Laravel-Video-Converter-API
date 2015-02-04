@@ -88,12 +88,14 @@ class VideoConverterController extends Controller {
 
 		$execEnd = microtime(true);    
 
-		$timeExec = $execEnd - $execStart;
+		// Time in minutes
+		$timeExec = round(($execEnd - $execStart)  / 60);
 
 		return Response::json(array(
-			'success' => true,
-			'data' 	=> Input::get('url'),
-			'time'	=> $timeExec),
+			'success' 	=> true,
+			'data' 		=> Input::get('url'),
+			'fileName' 	=> $filename,
+			'time'		=> $timeExec),
 			200
 		);
 
