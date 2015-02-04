@@ -77,7 +77,7 @@
 
             icon.addClass('fa-check text-success');
             content.find('p').append(' <span class="text-success">(Exécuté en ' + data.time + ' minutes)</span>');
-            content.append('<div class="row">'
+            content.prepend('<div class="row">'
               + '<div class="col-md-3">'
               + '<img src="/cdn/thumbnails/' + data.fileName + '_1.jpg" />'
               + '</div>'
