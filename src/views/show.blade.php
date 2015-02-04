@@ -59,7 +59,7 @@
           height: 200
         });
 
-      player.attachTo(document.getElementsById('video-' + fileName));
+      player.attachTo(document.getElementById('video-' + fileName));
     }
 
     function convertVideos(videos)
