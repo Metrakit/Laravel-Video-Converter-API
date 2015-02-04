@@ -4,19 +4,25 @@ class VideoConverterController extends Controller {
 
 	public function __construct()
 	{
-		header("Access-Control-Allow-Origin: *");
+		if (Config::get('videoConverter::VideoSettings.authorizeExternalIP') {
+			header("Access-Control-Allow-Origin: *");
+		}
+		
+		// Unlimited time for can convert videos
 		set_time_limit(0);
 	}
 
 	/*
 	 * Store new video
+	 * @return Objec Response
 	 */
 	public function store()
 	{
 
 		if (!Input::has('url')) {
+			// return error: no URL
 			return Response::json(array(
-				'message' 	=> "No URL"),
+				'message' 	=> Lang::get('videoConverter::message.error.noUrl')),
 				500
 			);
 		}
@@ -24,8 +30,9 @@ class VideoConverterController extends Controller {
 		$validator = Validator::make(Input::all(), Config::get('videoConverter::VideoSettings.rules'));
 
 		if ($validator->fails()) {
+			// return error: invalid URL
 			return Response::json(array(
-				'message' 	=> "Invalid URL"),
+				'message' 	=> Lang::get('videoConverter::message.error.invalidUrl')),
 				500
 			);
 		}
@@ -33,13 +40,15 @@ class VideoConverterController extends Controller {
 		$fileInfo = pathinfo(Input::get('url'));
 
 		if (sizeof($fileInfo) == 0) {
+			// return error: parsing URL
 			return Response::json(array(
-				'message' 	=> "Error when parsing URL"),
+				'message' 	=> Lang::get('videoConverter::message.error.parsingUrl')),
 				500
 			);			
 		}
 
-		if (file_exists(public_path() . '/cdn/' . $fileInfo['filename'] . '.mp4')) {
+		// If the video exist we rename the filename
+		if (file_exists(public_path() . '/' . Config::get('videoConverter::VideoSettings.videoPath') .  $fileInfo['filename'] . '.' . Config::get('videoConverter::VideoSettings.convertTo'))) {
 			$filename = str_random(5) . '-' . $fileInfo['filename'];
 		} else {
 			$filename = $fileInfo['filename'];
@@ -47,25 +56,29 @@ class VideoConverterController extends Controller {
 
 		$ffmpeg = \FFMpeg\FFMpeg::create(array(
 			// Paths to set for the librairies
-		    'ffmpeg.binaries'  => '/usr/bin/ffmpeg',
-		    'ffprobe.binaries' => '/usr/bin/ffprobe',
+		    'ffmpeg.binaries'  => Config::get('videoConverter::VideoSettings.ffmpegPath'),
+		    'ffprobe.binaries' => Config::get('videoConverter::VideoSettings.ffprobePath'),
 		));
 
-		// https://archive.org/download/Tg.flv_865/Tg.flv
+		// example: https://archive.org/download/Tg.flv_865/Tg.flv
 		$video = $ffmpeg->open(Input::get('url'));
+
+		/*$videoStream = $ffprobe->streams(Input::get('url'))
+    						->videos() 
+    						->first();*/
 
 		$video
 		    ->frame(FFMpeg\Coordinate\TimeCode::fromSeconds(5))
-		    ->save('cdn/' . $filename . '_1.jpg');
+		    ->save(Config::get('videoConverter::VideoSettings.thumbnailPath') . $filename . '_1.' . Config::get('videoConverter::VideoSettings.thumbnailType'));
 		$video
 		    ->frame(FFMpeg\Coordinate\TimeCode::fromSeconds(10))
-		    ->save('cdn/' . $filename . '_2.jpg');
+		    ->save(Config::get('videoConverter::VideoSettings.thumbnailPath') . $filename . '_2.' . Config::get('videoConverter::VideoSettings.thumbnailType'));
 		$video
 		    ->frame(FFMpeg\Coordinate\TimeCode::fromSeconds(15))
-		    ->save('cdn/' . $filename . '_3.jpg');
+		    ->save(Config::get('videoConverter::VideoSettings.thumbnailPath') . $filename . '_3.' . Config::get('videoConverter::VideoSettings.thumbnailType'));
 
 		$video
-		    ->save(new FFMpeg\Format\Video\X264(), 'cdn/' . $filename . '.mp4');
+		    ->save(new FFMpeg\Format\Video\X264(), Config::get('videoConverter::VideoSettings.videoPath') . $filename . '.' . Config::get('videoConverter::VideoSettings.convertTo'));
 
 		return Response::json(array(
 			'success' => true,
