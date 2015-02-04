@@ -69,9 +69,13 @@ class VideoConverterController extends Controller {
 		$video = $ffmpeg->open(Input::get('url'));
 
 		$videoStream = FFMpeg\FFProbe::create();
-		$videoStream->streams(Input::get('url'))
+		/*$videoStream
+			->streams(Input::get('url'))
 			->videos() 
-			->first();
+			->first();*/
+
+		$duration = $videoStream->format(Input::get('url'))
+    					->get('duration');  			
 
 		$video
 		    ->frame(FFMpeg\Coordinate\TimeCode::fromSeconds(5))
@@ -96,7 +100,7 @@ class VideoConverterController extends Controller {
 			'success' 	=> true,
 			'data' 		=> Input::get('url'),
 			'fileName' 	=> $filename,
-			'duration'	=> $videoStream->duration,
+			'duration'	=> $duration,
 			'time'		=> $timeExec),
 			200
 		);
