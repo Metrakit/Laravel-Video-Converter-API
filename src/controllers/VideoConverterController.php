@@ -19,6 +19,8 @@ class VideoConverterController extends Controller {
 	public function store()
 	{
 
+		$execStart = microtime(true);
+
 		if (!Input::has('url')) {
 			// return error: no URL
 			return Response::json(array(
@@ -61,6 +63,9 @@ class VideoConverterController extends Controller {
 		));
 
 		// example: https://archive.org/download/Tg.flv_865/Tg.flv
+		// https://archive.org/download/11Wmv/Produce_1.wmv
+		// try : https://archive.org/download/avi/avicompleet.mov
+		// https://archive.org/download/22avi/22Avi.avi
 		$video = $ffmpeg->open(Input::get('url'));
 
 		/*$videoStream = $ffprobe->streams(Input::get('url'))
@@ -80,9 +85,15 @@ class VideoConverterController extends Controller {
 		$video
 		    ->save(new FFMpeg\Format\Video\X264(), Config::get('videoConverter::VideoSettings.videoPath') . $filename . '.' . Config::get('videoConverter::VideoSettings.convertTo'));
 
+
+		$execEnd = microtime(true);    
+
+		$timeExec = $execEnd - $execStart;
+
 		return Response::json(array(
 			'success' => true,
 			'data' 	=> Input::get('url')),
+			'time'	=> $timeExec
 			200
 		);
 
