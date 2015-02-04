@@ -48,7 +48,7 @@ class VideoConverterController extends Controller {
 		}
 
 		// If the video exist we rename the filename
-		if (file_exists(public_path() . '/' . Config::get('videoConverter::VideoSettings.videoPath') .  $fileInfo['filename'] . '.' . Config::get('videoConverter::VideoSettings.convertTo'))) {
+		if (file_exists(Config::get('videoConverter::VideoSettings.videoPath') .  $fileInfo['filename'] . '.' . Config::get('videoConverter::VideoSettings.convertTo'))) {
 			$filename = str_random(5) . '-' . $fileInfo['filename'];
 		} else {
 			$filename = $fileInfo['filename'];

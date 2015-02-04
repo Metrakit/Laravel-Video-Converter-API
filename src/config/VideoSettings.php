@@ -10,8 +10,8 @@ return array(
 	'convertTo' => 'mp4',
 	'thumbnailType' => 'jpg',
 
-	'thumbnailPath' => 'cdn/thumbnails/',
-	'videoPath' => 'cdn/videos/',
+	'thumbnailPath' => public_path() . '/cdn/thumbnails/',
+	'videoPath' => public_path() . '/cdn/videos/',
 
 	'rules' => array(
 		"url" => array('url', 'regex:/(?i:^.*\.(mp4|avi|wmv|flv|mpg|mov|mkv)$)/')
