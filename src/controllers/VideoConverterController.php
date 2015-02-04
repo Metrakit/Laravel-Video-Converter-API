@@ -4,7 +4,7 @@ class VideoConverterController extends Controller {
 
 	public function __construct()
 	{
-		if (Config::get('videoConverter::VideoSettings.authorizeExternalIP') {
+		if (Config::get('videoConverter::VideoSettings.authorizeExternalIP')) {
 			header("Access-Control-Allow-Origin: *");
 		}
 		

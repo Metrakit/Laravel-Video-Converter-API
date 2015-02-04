@@ -14,7 +14,7 @@ return array(
 	'videoPath' => 'cdn/videos/',
 
 	'rules' => array(
-		"url" => "url|regex:/(?i:^.*\.(mp4|avi|wmv|flv|mpg|mov|mkv)$)/"
+		"url" => array('url', 'regex:/(?i:^.*\.(mp4|avi|wmv|flv|mpg|mov|mkv)$)/')
 	)
 
 );
