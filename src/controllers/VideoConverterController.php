@@ -68,9 +68,9 @@ class VideoConverterController extends Controller {
 		// https://archive.org/download/22avi/22Avi.avi
 		$video = $ffmpeg->open(Input::get('url'));
 
-		/*$videoStream = $ffprobe->streams(Input::get('url'))
+		$videoStream = $ffprobe->streams(Input::get('url'))
     						->videos() 
-    						->first();*/
+    						->first();
 
 		$video
 		    ->frame(FFMpeg\Coordinate\TimeCode::fromSeconds(5))
@@ -95,6 +95,7 @@ class VideoConverterController extends Controller {
 			'success' 	=> true,
 			'data' 		=> Input::get('url'),
 			'fileName' 	=> $filename,
+			'duration'	=> $videoStream->duration,
 			'time'		=> $timeExec),
 			200
 		);
