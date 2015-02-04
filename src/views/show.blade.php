@@ -16,6 +16,8 @@
 
   </style>
 
+  <script type="text/javascript" charset="utf-8" src="http://labs.jordane.net/clappr-comment/dist/clappr.min.js"></script>
+
   <script>
 
     function generateKey(nb)
@@ -48,6 +50,17 @@
 
     }
 
+    function showVideo(fileName)
+    {
+        var url = "/cdn/videos/" + fileName + ".mp4";
+        var player = new Clappr.Player({
+          sources: [url],
+          width: 200
+        });
+
+      player.attachTo(document.getElementsByClassName('video-' + fileName)[0]);
+    }
+
     function convertVideos(videos)
     {
       if (videos.length >= 1) {
@@ -64,16 +77,21 @@
             icon.addClass('fa-check text-success');
             content.find('p').append(' <span class="text-success">(Exécuté en ' + data.time + ' minutes)</span>');
             content.append('<div class="row">'
-              + '<div class="col-md-4">'
+              + '<div class="col-md-3">'
               + '<img src="/cdn/thumbnails/' + data.fileName + '_1.jpg" />'
               + '</div>'
-              + '<div class="col-md-4">'
+              + '<div class="col-md-3">'
               + '<img src="/cdn/thumbnails/' + data.fileName + '_2.jpg" />'
               + '</div>'
-              + '<div class="col-md-4">'
+              + '<div class="col-md-3">'
               + '<img src="/cdn/thumbnails/' + data.fileName + '_3.jpg" />'
               + '</div>'
+              + '<div class="col-md-3">'
+              + '<div class="video-' + data.fileName + '"></div>'
+              + '</div>'              
             + '</div>');
+
+            showVideo(data.fileName);
           
           }.bind(videos))
 
