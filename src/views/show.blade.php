@@ -9,6 +9,11 @@
       margin: 20px 0px 0px 20px;
     }
 
+    .video-list img {
+      max-width: 200px;
+      max-height: 200px;
+    }
+
   </style>
 
   <script>
@@ -58,12 +63,24 @@
 
             icon.addClass('fa-check text-success');
             content.find('p').append(' <span class="text-success">(Exécuté en ' + data.time + ' minutes)</span>');
+            content.append('
+              <div class="row">
+                <div class="col-md-4">
+                  <img src="/cdn/thumbnails/' + data.fileName + '_1.jpg" />
+                </div>
+              <div class="col-md-4">
+                <img src="/cdn/thumbnails/' + data.fileName + '_2.jpg" />
+              </div>
+              <div class="col-md-4">
+                <img src="/cdn/thumbnails/' + data.fileName + '_3.jpg" />
+              </div>
+            </div>');
           
           }.bind(videos))
 
           .fail(function(data) {
             console.log(data);
-            icon.addClass('fa-times text-danger');
+            icon.addClass('fa-times text-danger');    
             content.find('p').append(' <span class="text-danger">(' + data.responseJSON.message + ')</span>');
           })
 
