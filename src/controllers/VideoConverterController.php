@@ -88,9 +88,9 @@ class VideoConverterController extends Controller {
 				$frameTime = 5;
 			} else if ($i == $nbThumbs -1) {
 				// 10 seconds in less for the last frame
-				$time = ($time + $timeByThumb) - 10;
+				$frameTime = ($frameTime + $timeByThumb) - 10;
 			} else {
-				$time = $time + $timeByThumb;
+				$frameTime = $frameTime + $timeByThumb;
 			}
 
 			$frameNumber = $i + 1;
@@ -116,6 +116,7 @@ class VideoConverterController extends Controller {
 			'data' 		=> Input::get('url'),
 			'fileName' 	=> $filename,
 			'duration'	=> $duration,
+			'nbThumbs'	=> $nbThumbs,
 			'time'		=> $timeExec),
 			200
 		);
